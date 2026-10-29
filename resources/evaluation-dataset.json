@@ -1,0 +1,36 @@
+
+[
+  {
+    "id": "refund-001",
+    "question": "What should support do if a customer is charged twice?",
+    "expectedFacts": [
+      "Investigate both transaction IDs",
+      "Verify the duplicate charge before promising a refund"
+    ],
+    "expectedSources": ["sample-refund-policy.md"],
+    "answerable": true
+  },
+  {
+    "id": "refund-002",
+    "question": "Can support promise a refund before verifying a duplicate charge?",
+    "expectedFacts": [
+      "A refund should not be promised before the duplicate charge is verified"
+    ],
+    "expectedSources": ["sample-refund-policy.md"],
+    "answerable": true
+  },
+  {
+    "id": "password-001",
+    "question": "What is the password reset procedure?",
+    "expectedFacts": [],
+    "expectedSources": [],
+    "answerable": false
+  },
+  {
+    "id": "refund-003",
+    "question": "How many hours does a refund take to reach a customer's bank?",
+    "expectedFacts": [],
+    "expectedSources": [],
+    "answerable": false
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "name": "resolveiq_stand_alone_ai_service_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "test:watch": "vitest",
+    "ingest": "tsx src/ingest.ts",
+    "migrate": "tsx scripts/migrate.ts",
+    "ingest:store": "tsx scripts/store-document.ts",
+    "search": "tsx src/search.ts",
+    "ask": "tsx src/ask.ts",
+    "evaluate:rag": "tsx src/evaluate-rag.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^2.31.0",
+    "dotenv": "^18.0.9",
+    "mammoth": "^1.13.0",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/pdf-parse": "^1.1.5",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
