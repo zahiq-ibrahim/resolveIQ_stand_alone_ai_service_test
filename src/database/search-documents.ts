@@ -1,14 +1,5 @@
-
-import "dotenv/config";
-import pg from "pg";
+import { pool } from "./pool.js";
 import { generateEmbedding } from "../embeddings/generate-embedding.js";
-
-const { Pool } = pg;
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  connectionTimeoutMillis: 10000,
-});
 
 export interface SearchResult {
   documentId: string;
@@ -35,20 +26,16 @@ export async function searchDocuments(
     throw new Error("topK must be an integer between 1 and 20.");
   }
 
-  // Embed the user's question as a retrieval query.
-  const embedding = await generateEmbedding(
-    query,
-    "RETRIEVAL_QUERY",
-  );
+  const embedding = await generateEmbedding(query, "RETRIEVAL_QUERY");
 
   const result = await pool.query<SearchResult>(
     `
       SELECT
-        d.id AS "documentId",
-        d.source_name AS "sourceName",
-        c.chunk_index AS "chunkIndex",
-        c.content,
-        (1 - (c.embedding <=> $1::vector))::float8 AS similarity
+        d.id                                              AS "documentId",
+        d.source_name                                     AS "sourceName",
+        c.chunk_index                                     AS "chunkIndex",
+        c.chunk_text                                      AS content,
+        (1 - (c.embedding <=> $1::vector))::float8        AS similarity
       FROM document_chunks c
       JOIN documents d ON d.id = c.document_id
       WHERE c.organization_id = $2
@@ -62,6 +49,10 @@ export async function searchDocuments(
   return result.rows;
 }
 
+/**
+ * Kept for backward compatibility with tests that call closeSearchDatabase().
+ * The shared pool is managed globally; calling this is now a no-op.
+ */
 export async function closeSearchDatabase(): Promise<void> {
-  await pool.end();
+  // no-op: pool is managed by src/database/pool.ts
 }
